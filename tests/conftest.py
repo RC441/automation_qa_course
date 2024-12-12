@@ -8,7 +8,10 @@ from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture(scope="function")
 def driver():
-    # driver = webdriver.Chrome(ChromeDriverManager().install())
+    # options = Options()
+    # options.add_argument("--incognito")  # Режим инкогнито
+    # driver = webdriver.Chrome(options=options)
+
     driver = webdriver.Chrome()
     driver.maximize_window()
     yield driver

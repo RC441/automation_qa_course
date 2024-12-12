@@ -1,5 +1,7 @@
 import random
 import time
+from itertools import count
+
 from pages.base_page import BasePage
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 
@@ -73,15 +75,49 @@ class TestElements:
             print(table_result)
             assert new_person in table_result
 
+            # СЛОМАН ИЗ-ЗА БАННЕРОВ
             #тест поломан хотя логика правильная. баннеры перекрывают элементы
         def test_web_table_search_person(self, driver):
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
             web_table_page.open()
+            web_table_page.remove_banners()
             key_word = web_table_page.add_new_person()[random.randint(0, 5)]
             web_table_page.search_some_person(key_word)
             time.sleep(1)
             table_result = web_table_page.check_search_person()
             assert key_word in table_result, "The person wasn't found in the table"
+
+        # СЛОМАН ИЗ-ЗА БАННЕРОВ
+        def test_web_table_update_person_info(self, driver):
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            web_table_page.remove_banners()
+            lastname = web_table_page.add_new_person()[1]
+            web_table_page.search_some_person(lastname)
+            age = web_table_page.update_person_info()
+            row = web_table_page.check_search_person()
+            # print(age)
+            # print(row)
+            assert age in row, "The person's card has not been changed"
+
+        # СЛОМАН ИЗ-ЗА БАННЕРОВ
+        def test_web_table_delete_person(self, driver):
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            email = web_table_page.add_new_person()[3]
+            web_table_page.search_some_person(email)
+            web_table_page.delete_person()
+            text = web_table_page.check_deleted()
+            assert text == "No rows found"
+
+        # СЛОМАН ИЗ-ЗА БАННЕРОВ
+        def test_web_table_change_row_count(self, driver):
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            web_table_page.remove_banners()
+            row_count = web_table_page.select_up_to_some_rows()
+            assert row_count == [5, 10, 25, 50, 100], 'The number of row in the table has not been changed or has changed incorrectly'
+
 
 
 

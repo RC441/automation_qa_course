@@ -77,6 +77,8 @@ class CheckBoxPage(BasePage):
 class RadioButtonPage(BasePage):
     locators = RadioButtonPageLocators()
 
+
+
     def click_on_the_radio_button(self, choice):
         choices = {
             'yes': self.locators.YES_RADIO_BUTTON,
@@ -95,6 +97,13 @@ class RadioButtonPage(BasePage):
 
 class WebTablePage(BasePage):
     locators = WebTablePageLocators()
+
+    def remove_banners(self):
+        self.remove_banner(self.locators.BANNER_1_JS)
+        # self.remove_banner(self.locators.BANNER_2_JS)
+        # self.remove_banner(self.locators.BANNER_3_JS)
+        self.remove_banner(self.locators.BANNER_4_JS)
+
 
     def add_new_person(self):
         count = 1
@@ -124,6 +133,9 @@ class WebTablePage(BasePage):
             return [first_name, last_name, str(age), email, str(salary), department]
         # [first_name, last_name, email, str(age), str(salary), department]
 
+    def add_random_count_of_persons(self, min_count, max_count):
+        pass
+
     def check_new_added_person(self):
         people_list = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
         data = []
@@ -135,10 +147,10 @@ class WebTablePage(BasePage):
     def search_some_person(self, key_word):
         self.element_is_visible(self.locators.SEARCH_INPUT).send_keys(key_word)
         # search_field = self.element_is_visible(self.locators.SEARCH_INPUT)
-        # # self.go_to_element(search_field)
+        # self.go_to_element(search_field)
         # search_field.send_keys(key_word)
 
-
+        # Переработать метод. Поиск по значку
     def check_search_person(self):
         delete_button = self.element_is_present(self.locators.DELETE_BUTTON)
         self.go_to_element(delete_button)
@@ -147,8 +159,57 @@ class WebTablePage(BasePage):
         return row.text.splitlines()
 
 
-    def add_random_count_of_persons(self, min_count, max_count):
-        pass
+    # Задание: сделать версию метода для полностью рандомного выбора
+    # параметра человека из списка и проверка корректности изменений
+
+    def update_person_info(self):
+        person_info = next(generated_person())
+        age = person_info.age
+        edit = self.element_is_visible(self.locators.UPDATE_BUTTON)
+        self.go_to_element(edit)
+        edit.click()
+        self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+        submit = self.element_is_visible(self.locators.SUBMIT_BUTTON)
+        self.go_to_element(submit)
+        submit.click()
+        return str(age)
+
+    def delete_person(self):
+        self.element_is_visible(self.locators.DELETE_BUTTON).click()
+
+        # delete_button = self.element_is_visible(self.locators.DELETE_BUTTON)
+        # self.go_to_element(delete_button)
+        # delete_button.click()
+
+    def check_deleted(self):
+        return self.element_is_present(self.locators.NO_ROW_FOUND).text
+
+    def select_up_to_some_rows(self):
+        count = [5, 10, 25, 50, 100]
+        data = []
+        for x in count:
+            count_row_button = self.element_is_visible(self.locators.COUNT_ROW_LIST)
+            self.go_to_element(count_row_button)
+            count_row_button.click()
+            option = self.element_is_visible((By.CSS_SELECTOR, 'option[value="{x}"]'))
+            self.go_to_element(option)
+            option.click()
+            data.append(self.check_row_count())
+        return data
+
+    def check_row_count(self):
+        list_rows = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
+        return len(list_rows)
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -47,12 +47,30 @@ class WebTablePageLocators:
 
     #tables
     FULL_PEOPLE_LIST = (By.CSS_SELECTOR, "div[class='rt-tr-group']")
-
+    NO_ROW_FOUND = (By.CSS_SELECTOR, "div[class='rt-noData']")
     # search
     SEARCH_INPUT = (By.CSS_SELECTOR, "input[id='searchBox']")
     DELETE_BUTTON = (By.CSS_SELECTOR, "span[title='Delete']")
     ROW_PARENT = ".//ancestor::div[@class='rt-tr-group']"
+    COUNT_ROW_LIST = (By.CSS_SELECTOR, "select[aria-label='rows per page']")
 
+
+
+    # update
+    UPDATE_BUTTON = (By.CSS_SELECTOR, "span[title='Edit']")
+
+
+    
+
+
+    # banners доработать
+    # js queries
+    BANNER_1_JS = "document.querySelector('#RightSide_Advertisement').remove()"
+
+    BANNER_2_JS = "document.querySelector('div[id*=a]').remove()"
+
+    BANNER_3_JS = "document.querySelector(\"[data-google-container-id='2']\").remove()"
+    BANNER_4_JS = "document.querySelector('#adplus-anchor').remove()"
 
 
 
