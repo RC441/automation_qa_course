@@ -1,3 +1,4 @@
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -31,10 +32,25 @@ class BasePage:
     def go_to_element(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
 
+    def action_double_click(self, element):
+        action = ActionChains(self.driver)
+        action.double_click(element)
+        action.perform()
+
+    def action_right_click(self, element):
+        action = ActionChains(self.driver)
+        action.context_click(element)
+        action.perform()
+
+
+
+
+
+
+
 
 
     # banners remove
-
     def remove_banner(self, locator):
         # js = "document.querySelector(" + locator + ").remove()"
         js = locator
@@ -55,15 +71,6 @@ class BasePage:
     #         js = "document.querySelector('div[id='square']').remove()"
     #         self.driver.execute_script(js)
     #     # time.sleep(6)
-
-
-
-
-
-    #
-    # def remove_banner1(self):
-    #         js = "document.querySelector('.GoogleActiveViewElement').remove()"
-    #         return self.driver.execute_script(js)
 
 
 

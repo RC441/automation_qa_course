@@ -2,10 +2,13 @@ import random
 from selenium.webdriver.common.by import By
 
 from generator.generator import generated_person
-from locators.elements_page_locators import TextBoxPageLocators, \
+from locators.elements_page_locators import ( \
+    TextBoxPageLocators, \
     CheckBoxPageLocators, \
     RadioButtonPageLocators, \
-    WebTablePageLocators
+    WebTablePageLocators, \
+    ButtonsPageLocators \
+    )
 from pages.base_page import BasePage
 # import  time
 
@@ -98,6 +101,7 @@ class RadioButtonPage(BasePage):
 class WebTablePage(BasePage):
     locators = WebTablePageLocators()
 
+    # Переместить в BasePage.
     def remove_banners(self):
         self.remove_banner(self.locators.BANNER_1_JS)
         # self.remove_banner(self.locators.BANNER_2_JS)
@@ -145,10 +149,12 @@ class WebTablePage(BasePage):
         return data
 
     def search_some_person(self, key_word):
-        self.element_is_visible(self.locators.SEARCH_INPUT).send_keys(key_word)
+        # self.element_is_visible(self.locators.SEARCH_INPUT).send_keys(key_word)
         # search_field = self.element_is_visible(self.locators.SEARCH_INPUT)
         # self.go_to_element(search_field)
         # search_field.send_keys(key_word)
+        self.go_to_element(self.element_is_visible(self.locators.SEARCH_INPUT))
+        self.element_is_visible(self.locators.SEARCH_INPUT).send_keys(key_word)
 
         # Переработать метод. Поиск по значку
     def check_search_person(self):
@@ -168,7 +174,9 @@ class WebTablePage(BasePage):
         edit = self.element_is_visible(self.locators.UPDATE_BUTTON)
         self.go_to_element(edit)
         edit.click()
-        self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+        age_field = self.element_is_visible(self.locators.AGE_INPUT)
+        age_field.clear()
+        age_field.send_keys(age)
         submit = self.element_is_visible(self.locators.SUBMIT_BUTTON)
         self.go_to_element(submit)
         submit.click()
@@ -200,6 +208,25 @@ class WebTablePage(BasePage):
     def check_row_count(self):
         list_rows = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
         return len(list_rows)
+
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators()
+
+    def click_on_different_button(self, type_click):
+        if type_click == "double":
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_CLICK_BUTTON))
+            return self.check_clicked_on_the_button(self.locators.SUCCESS_DOUBLE)
+
+        if type_click == "right":
+            self.action_right_click(self.element_is_visible(self.locators.RIGHT_CLICK_BUTTON))
+            return self.check_clicked_on_the_button(self.locators.SUCCESS_RIGHT)
+
+        if type_click == "click":
+            self.element_is_visible(self.locators.CLICK_ME_BUTTON).click()
+            return self.check_clicked_on_the_button(self.locators.SUCCESS_CLICK_ME)
+
+    def check_clicked_on_the_button(self, element):
+        return self.element_is_present(element).text
 
 
 
