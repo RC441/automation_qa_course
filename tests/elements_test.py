@@ -3,7 +3,7 @@ import time
 from itertools import count
 
 from pages.base_page import BasePage
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
 
 
 class TestElements:
@@ -133,7 +133,20 @@ class TestElements:
             assert right ==  "You have done a right click", "The right click button was not pressed"
             assert click == "You have done a dynamic click", "The dynamic click button was not pressed"
 
+    class TestLinksPage:
 
+        def test_check_link(self, driver):
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            href_link, current_url = links_page.check_new_tab_simple_link()
+            print(href_link, current_url)
+            assert href_link == current_url, "The link is broken or url is incorrect"
+
+        def test_broken_link(self, driver):
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            responce_code = links_page.check_broken_link('https://demoqa.com/bad-request')
+            assert responce_code == 400, "Yhe links works or the status code is 400"
 
 
 

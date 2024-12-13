@@ -8,8 +8,6 @@
 
 
 
-
-
-
+pip freeze requirements.txt
 
 Как отключить все баннеры на странице?
