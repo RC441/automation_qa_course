@@ -22,8 +22,23 @@ def generated_person():
         email = faker_ru.email(),
         current_address = faker_ru.address(),
         permanent_address = faker_ru.address()
-
     )
+
+def generated_file():
+    path = rf'E:\Automation_Projects\PycharmProjects\automation_qa_course\test_files\filetest{random.randint(0, 999)}.txt'
+    file = open(path, "w+")
+    file.write(f'Hello WorldP{random.randint(0, 999)}')
+    file.close()
+    return file.name, path
+
+
+
+
+
+
+
+
+
 
 # def generated_person():
 #     yield Person(
