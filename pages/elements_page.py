@@ -4,8 +4,10 @@ import random
 import time
 
 import requests
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
-from urllib3 import request
+from selenium.webdriver.common.devtools.v129.fed_cm import click_dialog_button
+from urllib3 import request, Timeout
 
 from generator.generator import generated_person, generated_file
 from locators.elements_page_locators import ( \
@@ -14,7 +16,7 @@ from locators.elements_page_locators import ( \
     RadioButtonPageLocators, \
     WebTablePageLocators, \
     ButtonsPageLocators, \
-    LinksPageLocators, UploadAndDownloadPageLocators \
+    LinksPageLocators, UploadAndDownloadPageLocators, DynamicPropertiesPageLocators \
     )
 from pages.base_page import BasePage
 # import  time
@@ -282,6 +284,42 @@ class UploadAndDownloadPage(BasePage):
             f.close()
         os.remove(path_name_file)
         return check_file
+
+
+class DynamicPropertiesPage(BasePage):
+    locators = DynamicPropertiesPageLocators()
+
+    def check_button_is_enable(self):
+        start_time = time.perf_counter()
+        try:
+            self.element_is_clickable(self.locators.WILL_ENABLE_AFTER_FIVE_SEC_BUTTON)
+        except TimeoutException:
+            return False
+        finish_time = time.perf_counter()
+        print(f"It took {finish_time - start_time} seconds")
+        return True
+
+
+    def check_changed_of_color(self):
+        color_button = self.element_is_present(self.locators.COLOR_CHANGE_BUTTON)
+        start_time = time.perf_counter()
+        color_button_before = color_button.value_of_css_property('color')
+        time.sleep(5)
+        color_button_after = color_button.value_of_css_property('color')
+        finish_time = time.perf_counter()
+        # print(color_button_before, color_button_after)
+        print(f"It took {finish_time-start_time} seconds")
+        return color_button_before, color_button_after
+
+    def check_button_is_appeared(self):
+        start_time = time.perf_counter()
+        try:
+            self.element_is_visible(self.locators.VISIBLE_AFTER_FIVE_SEC_BUTTON)
+        except TimeoutException:
+            return False
+        finish_time = time.perf_counter()
+        print(f"It took {finish_time - start_time} seconds")
+        return  True
 
 
 
