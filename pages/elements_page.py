@@ -2,7 +2,6 @@ import base64
 import os
 import random
 import time
-
 import requests
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
@@ -97,7 +96,6 @@ class RadioButtonPage(BasePage):
             'impressive': self.locators.IMPRESSIVE_RADIO_BUTTON,
             'no': self.locators.NO_RADIO_BUTTON
             }
-
 
         radio = self.element_is_visible(choices[choice])
         self.go_to_element(radio)
@@ -202,14 +200,14 @@ class WebTablePage(BasePage):
         return self.element_is_present(self.locators.NO_ROW_FOUND).text
 
     def select_up_to_some_rows(self):
-        count = [5, 10, 25, 50, 100]
+        count = [5, 10, 20, 25, 50, 100]
         data = []
         for x in count:
             count_row_button = self.element_is_visible(self.locators.COUNT_ROW_LIST)
-            self.go_to_element(count_row_button)
+            # self.go_to_element(count_row_button)
             count_row_button.click()
-            option = self.element_is_visible((By.CSS_SELECTOR, 'option[value="{x}"]'))
-            self.go_to_element(option)
+            option = self.element_is_visible((By.CSS_SELECTOR, f'option[value="{x}"]'))
+            # self.go_to_element(option)
             option.click()
             data.append(self.check_row_count())
         return data
@@ -298,7 +296,6 @@ class DynamicPropertiesPage(BasePage):
         finish_time = time.perf_counter()
         print(f"It took {finish_time - start_time} seconds")
         return True
-
 
     def check_changed_of_color(self):
         color_button = self.element_is_present(self.locators.COLOR_CHANGE_BUTTON)

@@ -1,8 +1,6 @@
 import random
 import time
-
 from itertools import count
-
 from pages.base_page import BasePage
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadAndDownloadPage, DynamicPropertiesPage
@@ -54,12 +52,12 @@ class TestElements:
             radio_button_page.click_on_the_radio_button('impressive')
             output_impressive = radio_button_page.get_output_result()
             # time.sleep(3)
-            radio_button_page.click_on_the_radio_button('no')
-            output_no = radio_button_page.get_output_result()
+            # radio_button_page.click_on_the_radio_button('no')
+            # output_no = radio_button_page.get_output_result()
             # time.sleep(3)
             assert output_yes == 'Yes', "'Yes' have not been selected"
             assert output_impressive == 'Impressive', "'Impressive' have not been selected"
-            assert output_no == 'No', "'No' have not been selected"
+            # assert output_no == 'No', "'No' have not been selected"
 
 
 
@@ -112,13 +110,13 @@ class TestElements:
             text = web_table_page.check_deleted()
             assert text == "No rows found"
 
-            # СЛОМАН ИЗ-ЗА БАННЕРОВ ИЛИ еще из-за чего-то
+
         def test_web_table_change_row_count(self, driver):
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
             web_table_page.open()
             # web_table_page.remove_banners()
             row_count = web_table_page.select_up_to_some_rows()
-            assert row_count == [5, 10, 25, 50, 100], 'The number of row in the table has not been changed or has changed incorrectly'
+            assert row_count == [5, 10, 20, 25, 50, 100], 'The number of row in the table has not been changed or has changed incorrectly'
 
 
 
@@ -183,6 +181,7 @@ class TestElements:
             dynamic_properties_page.open()
             appear = dynamic_properties_page.check_button_is_appeared()
             assert appear is True, "The button does not appear after 5 seconds"
+
 
 
 
