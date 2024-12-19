@@ -4,7 +4,7 @@ import time
 from selenium.common import TimeoutException, UnexpectedAlertPresentException
 
 from locators.alerts_frames_windows_locators import BrowserWindowsPageLocators, AlertsPageLocators, FramesPageLocators, \
-    NestedFramesPageLocators
+    NestedFramesPageLocators, ModalDialogsPageLocators
 from pages.base_page import BasePage
 
 
@@ -110,6 +110,21 @@ class NestedFramesPage(BasePage):
 
         return parent_text, child_text
 
+
+class ModalDialogsPage(BasePage):
+    locators = ModalDialogsPageLocators()
+
+    def check_modal_dialogs(self):
+        self.element_is_visible(self.locators.SMALL_DIALOG_SHOW_BUTTON).click()
+        title_small = self.element_is_visible(self.locators.TITLE_SMALL_MODAL).text
+        body_small_text = self.element_is_visible(self.locators.BODY_SMALL_MODAL).text
+        self.element_is_visible(self.locators.SMALL_DIALOG_CLOSE).click()
+        self.element_is_visible(self.locators.LARGE_DIALOG_SHOW_BUTTON).click()
+        title_large = self.element_is_visible(self.locators.TITLE_LARGE_MODAL).text
+        body_large_text = self.element_is_visible(self.locators.BODY_LARGE_MODAL).text
+        self.element_is_visible(self.locators.LARGE_DIALOG_CLOSE).click()
+
+        return [title_small, len(body_small_text)], [title_large, len(body_large_text)]
 
 
 
