@@ -1,6 +1,6 @@
 import time
 
-from pages.alerts_frames_windows_page import BrowserWindowsPage
+from pages.alerts_frames_windows_page import BrowserWindowsPage, AlertsPage
 
 
 class TestAlertsFramesWindow:
@@ -18,4 +18,37 @@ class TestAlertsFramesWindow:
             text_result = browser_windows_page.check_opened_new_tab_of_window("window")
             assert text_result == 'This is a sample page', "The new window has not opened or incorrect window has opened"
 
+
+    class TestAlerts:
+
+        def test_click_to_see_alert(self, driver):
+            alerts_page = AlertsPage(driver, "https://demoqa.com/alerts")
+            alerts_page.open()
+            alert_text = alerts_page.check_see_alert()
+            assert alert_text == "You clicked a button", "Alert did not show up"
+
+
+        def test_wait_for_alert(self, driver):
+            alerts_page = AlertsPage(driver, "https://demoqa.com/alerts")
+            alerts_page.open()
+            alert_text = alerts_page.check_wait_for_alert_for_5_sec()
+            assert alert_text == "This alert appeared after 5 seconds", "Alert did not show up"
+
+
+        def test_click_confirm_alert(self, driver):
+            alerts_page = AlertsPage(driver, "https://demoqa.com/alerts")
+            alerts_page.open()
+            alert_text = alerts_page.check_confirm_alert()
+            print(alert_text)
+            assert alert_text == "You selected Ok" or "You selected Cancel", "Alert did not show up"
+
+
+
+        def test_prompt_alert(self, driver):
+            alerts_page = AlertsPage(driver, "https://demoqa.com/alerts")
+            alerts_page.open()
+            text_entered, text_alert = alerts_page.check_prompt_alert()
+            # print(text_entered)
+            # print(text_alert)
+            assert text_entered in text_alert, "Alert did not show up"
 
