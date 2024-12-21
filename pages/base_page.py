@@ -2,6 +2,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
 
 class BasePage:
     def __init__(self, driver, url):
@@ -52,12 +53,12 @@ class BasePage:
 
 
 
-
-    # banners remove
-    def remove_banner(self, locator):
-        # js = "document.querySelector(" + locator + ").remove()"
-        js = locator
-        self.driver.execute_script(js)
+    #
+    # # banners remove
+    # def remove_banner(self, locator):
+    #     # js = "document.querySelector(" + locator + ").remove()"
+    #     js = locator
+    #     self.driver.execute_script(js)
 
         # element = self.element_is_present("div[id='square']")  #'.GoogleActiveViewElement'
         # if element:
