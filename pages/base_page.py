@@ -76,4 +76,8 @@ class BasePage:
     #     # time.sleep(6)
 
 
-
+    #
+    # def get_elements(self,locator, items_locator):
+    #     container = self.driver.find_elements(locator)
+    #     items_list = container.find_elements(By.CSS_SELECTOR, items_locator)
+    #     return items_list

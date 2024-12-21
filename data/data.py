@@ -15,4 +15,6 @@ class Person:
     mobile: str = None
 
 
-
+@dataclass
+class Colors:
+    color_name: list = None

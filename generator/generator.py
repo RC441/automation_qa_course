@@ -1,6 +1,6 @@
 import random
 
-from data.data import Person
+from data.data import Person, Colors
 
 from faker import Faker
 
@@ -32,8 +32,13 @@ def generated_file():
     file.close()
     return file.name, path
 
+def generated_color():
+    yield Colors(
+        color_name = ["Red", "Blue", "Green", "Yellow", "Purple", "Black", "White", "Voilet", "Indigo", "Magenta", "Aqua"]
+    )
 
-
+# color_name = ["Re", "Bl", "Gre", "Yel", "Pur", "Bla", "Whi", "Voi", "Ind", "Mag", "Aq"]
+# color_name = ["Red", "Blue", "Green", "Yellow", "Purple", "Black", "White", "Voilet", "Indigo", "Magenta", "Aqua"]
 
 # Backups
 
