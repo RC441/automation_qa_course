@@ -1,11 +1,13 @@
 import random
+import time
 
 from selenium.common import TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
-from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators
+from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
+    SliderPageLocators, ProgressBarPageLocators
 from pages.base_page import BasePage
 
 
@@ -159,13 +161,9 @@ class DatePickerPage(BasePage):
         value_date_after = input_date_after.get_attribute('value')
         return value_date_before, value_date_after
 
-
-
-
     def set_date_by_text(self, element, value):
         select = Select(self.element_is_present(element))
         select.select_by_visible_text(value)
-
 
     def set_date_item_from_list(self, elements, value):
         item_list = self.elements_are_present(elements)
@@ -173,6 +171,30 @@ class DatePickerPage(BasePage):
             if item.text == value:
                 item.click()
                 break
+
+
+class SliderPage(BasePage):
+    locators = SliderPageLocators()
+
+    def change_slider_value(self):
+        value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
+        slider_input = self.element_is_visible(self.locators.SLIDER_INPUT)
+        self.action_drag_and_drop_by_offset(slider_input, random.randint(1,100), 0)
+        value_after = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
+        tooltip_value = self.element_is_visible(self.locators.SLIDER_TOOLTIP).text
+        return value_before, value_after, tooltip_value
+
+class ProgressBarPage(BasePage):
+    locators = ProgressBarPageLocators()
+
+    def change_progress_bar_value(self):
+        value_before = self.element_is_present(self.locators.PROGRESS_BAR_VALUE).get_attribute("aria-valuenow")
+        progress_bar_button = self.element_is_present(self.locators.PROGRESS_BAR_BUTTON)
+        progress_bar_button.click()
+        time.sleep(random.randint(2, 5))
+        progress_bar_button.click()
+        value_after = self.element_is_present(self.locators.PROGRESS_BAR_VALUE).get_attribute("aria-valuenow")
+        return value_before, value_after
 
 
 
