@@ -1,6 +1,7 @@
 import time
 
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
+    ToolTipsPage
 
 
 class TestWidgets:
@@ -128,7 +129,38 @@ class TestWidgets:
             assert origin_button == "Origin" and origin_content != 0, "The tab 'Origin' was not pressed or the text is missing"
             assert use_button == "Use" and use_content != 0, "The tab 'Use' was not pressed or the text is missing"
 
+    class TestToolTipsPage:
 
+        # BROKEN
+        def test_tool_tips(self, driver):
+            tool_tips_page = ToolTipsPage(driver, "https://demoqa.com/tool-tips")
+            tool_tips_page.open()
+
+            # #var1
+            # button_text, field_text, contrary_text, section_text = tool_tips_page.check_tool_tips()
+            # print(button_text)
+            # print(field_text)
+            # print(contrary_text)
+            # print(section_text)
+
+            # var2
+            button_text =  tool_tips_page.check_tool_tips("button")
+            field_text =  tool_tips_page.check_tool_tips("field")
+            contrary_text = tool_tips_page.check_tool_tips("contrary")
+            section_text = tool_tips_page.check_tool_tips("section")
+            print(button_text)
+            print(field_text)
+            print(contrary_text)
+            print(section_text)
+
+            # # test
+            # field_text = tool_tips_page.check_tool_tips()
+            # print(field_text)
+
+            # assert button_text   == "You hovered over the Button", "The hover is missing or has incorrect content"
+            # assert field_text    == "You hovered over the text field", "The hover is missing or has incorrect content"
+            # assert contrary_text == "You hovered over the Contrary", "The hover is missing or has incorrect content"
+            # assert section_text  == "You hovered over the 1.10.32", "The hover is missing or has incorrect content"
 
 
 

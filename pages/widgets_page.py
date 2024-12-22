@@ -4,10 +4,11 @@ import time
 from selenium.common import TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.support.select import Select
+from urllib3.util import wait_for_write
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators
 from pages.base_page import BasePage
 
 
@@ -222,6 +223,46 @@ class TabsPage(BasePage):
 
 
 
+class ToolTipsPage(BasePage):
+    locators = ToolTipsPageLocators()
+
+    def get_text_from_tool_tip(self, hover_element, wait_element):
+        element = self.element_is_visible(hover_element)
+        # time.sleep(3)
+        self.action_move_to_element(element)
+        self.element_is_visible(wait_element)
+        tool_tip_text = self.element_is_present(self.locators.TOOL_TIP_INNERS)
+        text = tool_tip_text.text
+        return text
+
+
+    def check_tool_tips(self, tool_tip_name):
+
+        # #var1
+        # tool_tip_text_button   = self.get_text_from_tool_tip(self.locators.BUTTON, self.locators.BUTTON_TOOL_TIP)
+        # tool_tip_text_field    = self.get_text_from_tool_tip(self.locators.FIELD, self.locators.FIELD_TOOL_TIP)
+        # tool_tip_text_contrary = self.get_text_from_tool_tip(self.locators.CONTRARY_LINK, self.locators.CONTRARY_LINK_TOOL_TIP)
+        # tool_tip_text_section  = self.get_text_from_tool_tip(self.locators.SECTION_LINK, self.locators.SECTION_LINK_TOOL_TIP)
+        #
+        # return tool_tip_text_button, tool_tip_text_field, tool_tip_text_contrary, tool_tip_text_section
+
+        # var2
+        tool_tips = {    'button':
+                          {'hover': self.locators.BUTTON,
+                          'wait': self.locators.BUTTON_TOOL_TIP},
+                     'field':
+                          {'hover': self.locators.FIELD,
+                          'wait': self.locators.FIELD_TOOL_TIP},
+                     'contrary':
+                          {'hover': self.locators.CONTRARY_LINK,
+                          'wait': self.locators.CONTRARY_LINK_TOOL_TIP},
+                     'section':
+                          {'hover': self.locators.SECTION_LINK,
+                          'wait': self.locators.SECTION_LINK_TOOL_TIP}
+                }
+
+        tool_tip = self.get_text_from_tool_tip(tool_tips[tool_tip_name]['hover'], tool_tips[tool_tip_name]['wait'])
+        return tool_tip
 
 
 
