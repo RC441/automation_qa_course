@@ -8,7 +8,7 @@ from urllib3.util import wait_for_write
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
 from pages.base_page import BasePage
 
 
@@ -263,6 +263,21 @@ class ToolTipsPage(BasePage):
 
         tool_tip = self.get_text_from_tool_tip(tool_tips[tool_tip_name]['hover'], tool_tips[tool_tip_name]['wait'])
         return tool_tip
+
+
+class MenuPage(BasePage):
+    locators = MenuPageLocators()
+
+    def check_menu(self):
+        menu_item_list = self.elements_are_present(self.locators.MENU_ITEM_LIST)
+        data = []
+        for item in menu_item_list:
+            self.action_move_to_element(item)
+            data.append(item.text)
+        return data
+
+
+
 
 
 
