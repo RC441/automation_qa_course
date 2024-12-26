@@ -1,6 +1,6 @@
 import random
 
-from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators
+from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators, ResizeablePageLocators
 from pages.base_page import BasePage
 
 
@@ -54,4 +54,36 @@ class SelectablePage(BasePage):
         self.click_selectable(self.locators.GRID_ITEM)
         active_element = self.element_is_visible(self.locators.GRID_ITEM_ACTIVE)
         return active_element.text
+
+
+class ResizeablePage(BasePage):
+    locators = ResizeablePageLocators()
+
+    def get_px_from_width_height(self, value_of_size):
+        width = value_of_size.split(';')[0].split(':')[1].replace(' ','')
+        height = value_of_size.split(';')[1].split(':')[1].replace(' ','')
+        return width, height
+
+    def get_max_min_size(self, element):
+        size = self.element_is_present(element)
+        size_value = size.get_attribute("style")
+        return size_value
+
+    def change_size_resizeable_box(self):
+        self.action_drag_and_drop_by_offset(self.element_is_present(self.locators.RESIZEABLE_BOX_HANDLE), 400, 200)
+        max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZEABLE_BOX))
+        self.action_drag_and_drop_by_offset(self.element_is_present(self.locators.RESIZEABLE_BOX_HANDLE), -500, -200)
+        min_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZEABLE_BOX))
+        return max_size, min_size
+
+    def change_size_resizeable(self):
+        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZEABLE_HANDLE), random.randint(1, 300), random.randint(1, 300))
+        max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZEABLE))
+        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZEABLE_HANDLE), random.randint(-200, -1), random.randint(-200, -1))
+        min_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZEABLE))
+        return max_size, min_size
+
+
+
+
 

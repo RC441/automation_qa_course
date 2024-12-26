@@ -1,4 +1,6 @@
-from pages.interactions_page import SortablePage, SelectablePage
+from wsgiref.validate import assert_
+
+from pages.interactions_page import SortablePage, SelectablePage, ResizeablePage
 
 
 class TestInteractions:
@@ -30,5 +32,17 @@ class TestInteractions:
 
 
 
+    class TestResizeablePage:
+
+        def test_resizeable(self, driver):
+            resizeable_page = ResizeablePage(driver, "https://demoqa.com/resizable")
+            resizeable_page.open()
+            max_box, min_box = resizeable_page.change_size_resizeable_box()
+            max_resize, min_resize = resizeable_page.change_size_resizeable()
+            # print(max_box, min_box)
+            # print(max_resize, min_resize)
+            assert ('500px', '300px') == max_box, "Maximum size not equal to '500px', '300px'"
+            assert ('150px', '150px') == min_box, "Minimum size not equal to '150px', '150px'"
+            assert min_resize != max_resize, "Resizeable has not been changed"
 
 
