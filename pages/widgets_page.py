@@ -8,7 +8,8 @@ from urllib3.util import wait_for_write
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators, \
+    SelectMenuPageLocators
 from pages.base_page import BasePage
 
 
@@ -276,14 +277,158 @@ class MenuPage(BasePage):
             data.append(item.text)
         return data
 
+class SelectMenuPage(BasePage):
+    locators = SelectMenuPageLocators()
+
+    # Select Value (dropdown list)
+    # Collect all dropdown options
+    def collect_options_from_dropdown_list(self, locator):
+        options_list = self.elements_are_present(locator)
+        data = []
+        for item in options_list:
+            self.action_move_to_element(item)
+            result = item.text
+            clean_result = result.replace("\n", " ")
+            data.append(clean_result)
+        return data, options_list
+
+    # Click on random dropdown option
+    def click_on_item_in_select_value_dropdown_list(self):
+        list_locators = {
+                         'group_1_option_1':    self.locators.GROUP_1_OPTION_1,
+                         'group_1_option_2':    self.locators.GROUP_1_OPTION_2,
+                         'group_2_option_1':    self.locators.GROUP_2_OPTION_1,
+                         'group_2_option_2':    self.locators.GROUP_2_OPTION_2,
+                         'root_option':         self.locators.ROOT_OPTION,
+                         'another_root_option': self.locators.ANOTHER_ROOT_OPTION
+                         }
+        random_key = random.choice(list(list_locators.keys()))
+        random_option = self.element_is_present(list_locators[random_key])
+        text = random_option.text
+        random_option.click()
+        return text
+
+    # Select One (dropdown list)
+    # Click on random dropdown option
+    def click_on_item_in_select_one_dropdown_list(self):
+        list_locators = {
+                         'dr_select':    self.locators.DR_SELECT,
+                         'mr_select':    self.locators.MR_SELECT,
+                         'mrs_select':   self.locators.MRS_SELECT,
+                         'ms_select':    self.locators.MS_SELECT,
+                         'prof_select':  self.locators.PROF_SELECT,
+                         'other_select': self.locators.OTHER_SELECT
+                         }
+        random_key = random.choice(list(list_locators.keys()))
+        random_option = self.element_is_present(list_locators[random_key])
+        text = random_option.text
+        random_option.click()
+        return text
+
+    def check_dropdown_list(self, list_name):
+        list_locators = {'select_value': {'locator': self.locators.SELECT_VALUE_DROPDOWN_MENU},
+                         'select_one': {'locator': self.locators.SELECT_TITLE_DROPDOWN_MENU}
+                         # 'multiselect': {'locator': self.locators.SELECT_TITLE_DROPDOWN_MENU}
+                         }
+        if list_name == 'select_value':
+            item, list_items, chosen_item_text = self.check_select_value_dropdown_list(list_locators[list_name]['locator'])
+        if list_name == 'select_one':
+            item, list_items, chosen_item_text = self.check_select_one_dropdown_list(list_locators[list_name]['locator'])
+        # if list_name == 'multiselect':
+        #     items, list_items = self.check_select_value_dropdown_list(list_locators[list_name]['locator'])
+        return item, list_items, chosen_item_text
+
+    def check_select_value_dropdown_list(self, locator):
+        menu = self.element_is_present(locator)
+        menu.click()
+        list_items, locators_list = self.collect_options_from_dropdown_list(locator)
+        item = self.click_on_item_in_select_value_dropdown_list()
+        chosen_item_text = self.element_is_present(locator).text
+        chosen_item_text = chosen_item_text.split("\n")[-1]
+        # print(chosen_item_text)
+        return item, list_items, chosen_item_text
+
+    def check_select_one_dropdown_list(self, locator):
+        menu = self.element_is_present(locator)
+        menu.click()
+        list_items, locators_list = self.collect_options_from_dropdown_list(locator)
+        item = self.click_on_item_in_select_one_dropdown_list()
+        chosen_item_text = self.element_is_present(locator).text
+        chosen_item_text = chosen_item_text.split("\n")[-1]
+        # print(chosen_item_text)
+        return item, list_items, chosen_item_text
+
+    def click_on_item_in_old_style_select_menu_dropdown_list(self, items_locators):
+        text_line = 'Red Blue Green Yellow Purple Black White Voilet Indigo Magenta Aqua'
+        items_list = text_line.split()
+        random_item = random.choice(items_list)
+
+        # print(random_item)
+        for item in items_locators:
+            self.action_move_to_element(item)
+
+            if item.text == random_item:
+                print(item.text)
+                self.action_click(item)
+                random_option_text = item.text
+                print(random_option_text)
+                item.click()
+        # random_item =
+        return random_item #random_option_text
+
+
+    def check_old_style_select_menu(self):
+        menu = self.element_is_present(self.locators.OLD_STYLE_DROPDOWN_MENU)
+        menu.click()
+        string_items, items_locators = self.collect_options_from_dropdown_list(self.locators.OLD_STYLE_DROPDOWN_MENU)
+        item = self.click_on_item_in_old_style_select_menu_dropdown_list(items_locators)
+        chosen_item_text = self.element_is_present(self.locators.OLD_STYLE_DROPDOWN_MENU).text
+        chosen_item_text = chosen_item_text.split("\n")[-1]
+        # print(chosen_item_text)
+        # print(item)
+        # print(string_items)
+        return string_items, item, chosen_item_text
 
 
 
 
 
+    # def choice_one_random_menu_item(self, locator, items):
+    #     # count_to_pick = random.randint(1, 1)
+    #     option = random.sample(items, k = 1)
+    #     self.action_move_to_element_and_click(option)
+    #     return
+
+    def get_added_items(self, elements):
+        item_list = self.elements_are_present(elements)
+        return [item.text for item in item_list]
+
+    def check_multiselect_dropdown_menu(self):
+        self.element_is_visible(self.locators.MULTISELECT_MENU).click()
+
+        # item_list = random.sample(self.elements_are_visible(self.locators.LIST_ITEM), k=2)
 
 
+       # remove all items in the field one by one
+
+    # def remove_all_value_from_multi(self):
+    #     count_value_before = len(self.elements_are_visible(self.locators.MULTI_VALUE))
+    #     remove_button_list = self.elements_are_visible(self.locators.REMOVE_VALUE_MULTI)
+    #     count_value_after = count_value_before
+    #     for value in remove_button_list:
+    #         value.click()
+    #         count_value_after = count_value_after - 1
+    #     return count_value_before, count_value_after
 
 
-
-
+    # def choice_random_menu_items(self, locator, quantity):
+    #     options_list = self.elements_are_present(locator)
+    #     count_to_pick = random.randint(1, quantity)
+    #     options = random.sample(options_list, k=count_to_pick)
+    #     current_options_list = []
+    #     for option in options:
+    #         input_multi = self.element_is_visible(self.locators.MULTI_INPUT)
+    #         input_multi.send_keys(color)
+    #         input_multi.send_keys(Keys.ENTER)
+    #         current_color_list.append(color)
+    #     return current_color_list

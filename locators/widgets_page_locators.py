@@ -82,6 +82,51 @@ class MenuPageLocators:
     MENU_ITEM_LIST = (By.CSS_SELECTOR, "ul[id='nav'] li a")
 
 
+class SelectMenuPageLocators:
+    # Select Value (dropdown list)
+    SELECT_VALUE_DROPDOWN_MENU = (By.CSS_SELECTOR, "div[id='withOptGroup']")
+    GROUP_1_OPTION_1 =    (By.CSS_SELECTOR, "div[id='react-select-2-option-0-0")
+    GROUP_1_OPTION_2 =    (By.CSS_SELECTOR, "div[id='react-select-2-option-0-1")
+    GROUP_2_OPTION_1 =    (By.CSS_SELECTOR, "div[id='react-select-2-option-1-0")
+    GROUP_2_OPTION_2 =    (By.CSS_SELECTOR, "div[id='react-select-2-option-1-1")
+    ROOT_OPTION =         (By.CSS_SELECTOR, "div[id='react-select-2-option-2")
+    ANOTHER_ROOT_OPTION = (By.CSS_SELECTOR, "div[id='react-select-2-option-3")
+
+    # Select One (select title/ dropdown menu)
+    SELECT_TITLE_DROPDOWN_MENU = (By.CSS_SELECTOR, "div div[id='selectOne']")
+    DR_SELECT    = (By.CSS_SELECTOR, "div div[id='react-select-3-option-0-0']")
+    MR_SELECT    = (By.CSS_SELECTOR, "div div[id='react-select-3-option-0-1']")
+    MRS_SELECT   = (By.CSS_SELECTOR, "div div[id='react-select-3-option-0-2']")
+    MS_SELECT    = (By.CSS_SELECTOR, "div div[id='react-select-3-option-0-3']")
+    PROF_SELECT  = (By.CSS_SELECTOR, "div div[id='react-select-3-option-0-4']")
+    OTHER_SELECT = (By.CSS_SELECTOR, "div div[id='react-select-3-option-0-5']")
+
+
+    # Old Style Select Menu
+    OLD_STYLE_DROPDOWN_MENU = (By.CSS_SELECTOR, "div select[id='oldSelectMenu']")
+
+    # Multiselect drop down menu
+    MULTISELECT_MENU = (By.CSS_SELECTOR, "//*[@id='react-select-4-input']")
+    GREEN = (By.CSS_SELECTOR, "div[id='react-select-13-option-0']")
+    BLUE = (By.CSS_SELECTOR, "div[id='react-select-13-option-1']")
+    BLACK = (By.CSS_SELECTOR, "div[id='react-select-13-option-2']")
+    RED = (By.CSS_SELECTOR, "div[id='react-select-13-option-3']")
+    REMOVE_ITEM_FROM_FIELD = (By.CSS_SELECTOR, "div svg[class='css-19bqh2r'] ")
+
+
+
+
+
+
+
+    # DR_SELECT    = (By.CSS_SELECTOR, "div[class=' css-1hwfws3'] input[id='react-select-3-input']")
+    # MR_SELECT    = (By.CSS_SELECTOR, "div[class=' css-1hwfws3'] input[id='react-select-3-input']")
+    # MRS_SELECT   = (By.CSS_SELECTOR, "div[class=' css-1hwfws3'] input[id='react-select-3-input']")
+    # MS_SELECT    = (By.CSS_SELECTOR, "div[class=' css-1hwfws3'] input[id='react-select-3-input']")
+    # PROF_SELECT  = (By.CSS_SELECTOR, "div[class=' css-1hwfws3'] input[id='react-select-3-input']")
+    # OTHER_SELECT = (By.CSS_SELECTOR, "div[class=' css-1hwfws3'] input[id='react-select-3-input']")
+
+
 
 
 

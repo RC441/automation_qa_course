@@ -1,7 +1,7 @@
 import time
 
 from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
-    ToolTipsPage, MenuPage
+    ToolTipsPage, MenuPage, SelectMenuPage
 
 
 class TestWidgets:
@@ -163,7 +163,6 @@ class TestWidgets:
             # assert section_text  == "You hovered over the 1.10.32", "The hover is missing or has incorrect content"
 
 
-
     class TestMenuPage:
 
         def test_menu_items(self, driver):
@@ -175,13 +174,43 @@ class TestWidgets:
          'Main Item 3'], "Menu items do not exist or have not been selected"
 
 
+    class TestSelectMenuPage:
+
+        def test_select_value_menu(self, driver):
+            menu_page = SelectMenuPage(driver, "https://demoqa.com/select-menu")
+            menu_page.open()
+            option, options_list, chosen_item_text = menu_page.check_dropdown_list("select_value")  #item, list_items, chosen_item_text
+            # print(option)
+            # print(chosen_item_text)
+            # print(options_list)
+            assert option == chosen_item_text, "Chosen option has a different text"
+            assert options_list == [' Select Option GROUP 1 Group 1, option 1 Group 1, option 2 GROUP 2 Group 2, option 1 Group 2, option 2 A root option Another root option']
+
+        def test_select_one_menu(self, driver):
+            menu_page = SelectMenuPage(driver, "https://demoqa.com/select-menu")
+            menu_page.open()
+            option, options_list, chosen_item_text = menu_page.check_dropdown_list("select_one")
+            # print(option)
+            # print(chosen_item_text)
+            # print(options_list)
+            assert option == chosen_item_text, "Chosen option has a different text"
+            assert options_list == [' Select Title PICK ONE TITLE Dr. Mr. Mrs. Ms. Prof. Other']
+
+        # BROKEN
+        def test_old_style_select_menu(self, driver):
+            menu_page = SelectMenuPage(driver, "https://demoqa.com/select-menu")
+            menu_page.open()
+            result, item, chosen_item_text = menu_page.check_old_style_select_menu()
+            time.sleep(2)
+            print(result)
+            print(item)
+            print(chosen_item_text)
+
+            # assert result == ['Red Blue Green Yellow Purple Black White Voilet Indigo Magenta Aqua']
 
 
-
-
-
-
-
-
-
-
+        def test_multiselect_menu(self, driver):
+            menu_page = SelectMenuPage(driver, "https://demoqa.com/select-menu")
+            menu_page.open()
+            menu_page.check_multiselect_dropdown_menu()
+            time.sleep(2)
